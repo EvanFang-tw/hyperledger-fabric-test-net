@@ -1,0 +1,6 @@
+bin/
+channel-artifacts/
+config/
+crypto-config/
+*.tx
+*.block

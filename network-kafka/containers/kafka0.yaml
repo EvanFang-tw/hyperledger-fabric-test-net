@@ -1,0 +1,30 @@
+version: '2'
+
+volumes:
+  kafka0.test.com:
+
+networks:
+  test-net:
+    external: true
+
+services:
+  kafka0.test.com:
+    container_name: kafka0.test.com
+    image: hyperledger/fabric-kafka:0.4.18
+    restart: always
+    environment:
+      - KAFKA_BROKER_ID=0
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper0.test.com:2181,zookeeper1.test.com:2181,zookeeper2.test.com:2181
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka0.test.com:9092
+      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
+      - KAFKA_MESSAGE_MAX_BYTES=104857600 # 100 * 1024 * 1024 B
+      - KAFKA_REPLICA_FETCH_MAX_BYTES=104857600 # 100 * 1024 * 1024 B
+      - KAFKA_UNCLEAN_LEADER_ELECTION_ENABLE=false
+      - KAFKA_LOG_RETENTION_MS=-1
+      # Replica setting
+      - KAFKA_MIN_INSYNC_REPLICAS=2
+      - KAFKA_DEFAULT_REPLICATION_FACTOR=4
+    volumes:
+      - kafka0.test.com:/tmp/kafka-logs
+    networks:
+    - test-net

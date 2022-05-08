@@ -1,0 +1,104 @@
+{
+  "name": "dev",
+  "version": "1.0.0",
+  "client": {
+    "organization": "Org1",
+    "connection": {
+      "timeout": {
+        "peer": {
+          "endorser": "300"
+        },
+        "orderer": "300"
+      }
+    }
+  },
+  "channels": {
+    "mychannel": {
+      "orderers": [
+        "orderer0.test.com",
+        "orderer1.test.com",
+        "orderer2.test.com"
+      ],
+      "peers": {
+        "peer0.test.com": {
+          "endorsingPeer": true,
+          "chaincodeQuery": true,
+          "ledgerQuery": true,
+          "eventSource": true
+        },
+        "peer1.test.com": {
+          "endorsingPeer": true,
+          "chaincodeQuery": true,
+          "ledgerQuery": true,
+          "eventSource": true
+        }
+      }
+    }
+  },
+  "organizations": {
+    "Org1": {
+      "mspid": "Org1MSP",
+      "peers": [
+        "peer0.test.com",
+        "peer1.test.com"
+      ],
+      "certificateAuthorities": [
+        "ca.test.com"
+      ]
+    }
+  },
+  "orderers": {
+    "orderer0.test.com": {
+      "url": "grpcs://orderer0.test.com:7050",
+      "grpcOptions": {
+        "ssl-target-name-override": "orderer0.test.com",
+        "grpc-max-send-message-length": -1
+      },
+      "tlsCACerts": {
+        "path": "/home/middleware/tlscerts/orderer/tlsca.test.com-cert.pem"
+      }
+    },
+    "orderer1.test.com": {
+      "url": "grpcs://orderer1.test.com:7050",
+      "grpcOptions": {
+        "ssl-target-name-override": "orderer1.test.com",
+        "grpc-max-send-message-length": -1
+      },
+      "tlsCACerts": {
+        "path": "/home/middleware/tlscerts/orderer/tlsca.test.com-cert.pem"
+      }
+    },
+    "orderer2.test.com": {
+      "url": "grpcs://orderer2.test.com:7050",
+      "grpcOptions": {
+        "ssl-target-name-override": "orderer2.test.com",
+        "grpc-max-send-message-length": -1
+      },
+      "tlsCACerts": {
+        "path": "/home/middleware/tlscerts/orderer/tlsca.test.com-cert.pem"
+      }
+    }
+  },
+  "peers": {
+    "peer0.test.com": {
+      "url": "grpcs://peer0.test.com:7051",
+      "eventUrl": "grpcs://peer0.test.com:7053",
+      "grpcOptions": {
+        "ssl-target-name-override": "peer0.test.com"
+      },
+      "tlsCACerts": {
+        "path": "/home/middleware/tlscerts/peer/tlsca.test.com-cert.pem"
+      }
+    },
+    "peer1.test.com": {
+      "url": "grpcs://peer1.test.com:8051",
+      "eventUrl": "grpcs://peer1.test.com:8053",
+      "grpcOptions": {
+        "ssl-target-name-override": "peer1.test.com"
+      },
+      "tlsCACerts": {
+        "path": "/home/middleware/tlscerts/peer/tlsca.test.com-cert.pem"
+      }
+    }
+  }
+}

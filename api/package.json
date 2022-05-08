@@ -1,0 +1,58 @@
+{
+  "name": "middleware",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "lint": "standard",
+    "lint-fix": "standard --fix",
+    "test": "nyc --report-dir ./coverage mocha ./test --recursive"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://konewcorp.visualstudio.com/trustME_CompanyRegistry/_git/middleware"
+  },
+  "author": "trustme",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "fabric-ca-client": "^1.4.4",
+    "fabric-network": "^1.4.4",
+    "log4js": "^6.1.1",
+    "morgan": "^1.9.1"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^7.0.1",
+    "nodemon": "^2.0.2",
+    "nyc": "^15.0.0",
+    "sinon": "^8.1.1",
+    "sinon-express-mock": "^2.2.1",
+    "standard": "^14.3.3"
+  },
+  "nyc": {
+    "exclude": [
+      "coverage/**",
+      "test/**"
+    ],
+    "reporter": [
+      "text-summary",
+      "html"
+    ],
+    "all": true,
+    "check-coverage": false,
+    "statements": 99,
+    "branches": 99,
+    "functions": 99,
+    "lines": 99
+  },
+  "standard": {
+    "env": [
+      "mocha"
+    ]
+  }
+}

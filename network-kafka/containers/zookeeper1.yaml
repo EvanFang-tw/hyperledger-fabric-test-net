@@ -1,0 +1,25 @@
+version: '2'
+
+volumes:
+  zookeeper1.test.com-data:
+  zookeeper1.test.com-datalog:
+
+networks:
+  test-net:
+    external: true
+
+services:
+  zookeeper1.test.com:
+    container_name: zookeeper1.test.com
+    image: hyperledger/fabric-zookeeper:0.4.18
+    restart: always
+    environment:
+      - ZOO_MY_ID=1
+      - ZOO_SERVERS=server.0=zookeeper0.test.com:2888:3888 server.1=zookeeper1.test.com:2888:3888 server.2=zookeeper2.test.com:2888:3888
+      # - ZOOKEEPER_CLIENT_PORT= 32181
+      # - ZOOKEEPER_TICK_TIME= 2000
+    volumes:
+      - zookeeper1.test.com-data:/data
+      - zookeeper1.test.com-datalog:/datalog
+    networks:
+    - test-net

@@ -1,0 +1,33 @@
+version: "2"
+
+# This docker-compose file is used for demo nginx loadbalancer function.
+
+networks:
+  test-net:
+    external: true
+
+services:
+  middleware1.test.com :
+    image: node:8.17.0-stretch
+    container_name: middleware1.test.com 
+    tty: true
+    environment: 
+      - PORT=3001
+      - CHANNEL_NAME=mychannel
+      - CHAINCODE_NAME=sacc
+      # - CHAINCODE_NAME=tsacc
+      - CA_ENROLLMENT_ID=user
+      - CA_ENROLLMENT_SECRET=userpw
+      - CA_CERT_PATH=/home/middleware/tlscerts/ca/ca.crt
+      - CA_URL=https://ca.test.com:7054
+      - CA_NAME=ca.test.com
+      - CA_MSPID=Org1MSP
+      - CONNECTION_FILE_PATH=/home/middleware/connection.dev.json
+    working_dir: /home/middleware
+    command: npm start
+    volumes: 
+      - ./:/home/middleware
+    ports:
+      - 3001:3001
+    networks:
+      - test-net

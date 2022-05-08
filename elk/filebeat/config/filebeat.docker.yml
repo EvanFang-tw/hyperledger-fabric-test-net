@@ -1,0 +1,39 @@
+filebeat.config:
+  modules:
+    path: ${path.config}/modules.d/*.yml
+    reload.enabled: false
+
+# Fetch hyperledger related log only
+filebeat.autodiscover:
+  providers:
+    - type: docker
+      templates:
+        - condition:
+            contains:
+              docker.container.image: hyperledger
+          config:
+            - type: container
+              paths:
+                - /var/lib/docker/containers/${data.docker.container.id}/*.log
+              exclude_lines: ["^\\s+[\\-`('.|_]"]  # drop asciiart lines
+              multiline.pattern: ^\[
+              multiline.negate: true
+              multiline.match: after
+
+processors:
+- add_cloud_metadata: ~
+
+# Use "fabric-*" as index, replace default "filebeat-*".
+setup.template.name: "fabric-%{[agent.version]}"
+setup.template.pattern: "fabric-%{[agent.version]}-*"
+setup.ilm.enabled: false
+
+output.elasticsearch:
+  hosts: elasticsearch.elk:9200
+  index: "fabric-%{[agent.version]}-%{+yyyy.MM.dd}"
+  indices:
+    - index: "fabric-%{[agent.version]}-%{+yyyy.MM.dd}-warn"
+      when.contains:
+        message: "WARN"
+  username: elastic
+  password: changeme

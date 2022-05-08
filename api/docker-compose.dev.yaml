@@ -1,0 +1,30 @@
+version: "2"
+
+networks:
+  test-net:
+    external: true
+
+services: 
+  middleware0.test.com :
+    image: node:8.17.0-stretch
+    container_name: middleware0.test.com 
+    tty: true
+    environment: 
+      - PORT=3000
+      - CHANNEL_NAME=mychannel
+      - CHAINCODE_NAME=sacc
+      # - CHAINCODE_NAME=tsacc
+      - CA_ENROLLMENT_ID=user
+      - CA_ENROLLMENT_SECRET=userpw
+      - CA_CERT_PATH=/home/middleware/tlscerts/ca/ca.crt
+      - CA_URL=https://ca.test.com:7054
+      - CA_NAME=ca.test.com
+      - CA_MSPID=Org1MSP
+      - CONNECTION_FILE_PATH=/home/middleware/connection.dev.json
+    working_dir: /home/middleware
+    volumes: 
+      - ./:/home/middleware
+    ports:
+      - 3000:3000
+    networks:
+      - test-net
